@@ -27,9 +27,11 @@ const translate = async (
     const prompt: string = `Translate ${text} to ${lang}`;
 
     const result: any = await openai.createCompletion({
-      model: "text-davinci-002",
+      model: "text-davinci-003",
       prompt,
+      max_tokens: 2040,
     });
+
     console.log(result.data.choices[0].text);
     return result;
   } catch (err) {
