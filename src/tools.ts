@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import pdf, { Result } from "pdf-parse";
 import { Configuration, OpenAIApi } from "openai";
 import dotenv from "dotenv";
@@ -9,9 +8,8 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-const testFxn = async (pathToFile: string): Promise<string | undefined> => {
+const testFxn = async (pdfBuffer: Buffer): Promise<string | undefined> => {
   try {
-    const pdfBuffer: Buffer = fs.readFileSync(pathToFile);
     const data: Result = await pdf(pdfBuffer);
     return data.text;
   } catch (err) {

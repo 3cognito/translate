@@ -1,21 +1,22 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import { testFxn, translate } from "./tools";
+import { translateController } from "./controller";
+import multer from "multer";
 
+const upload = multer();
 dotenv.config();
 
 const app: Express = express();
+app.use(express.json());
+
 const port = process.env.PORT || 9000;
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-// app.get('/translate', )
+app.post("/translate", upload.single("file"), translateController);
 
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-  const res = await testFxn("./Tommy.pdf");
-  const test: any = await translate(res, "french");
-  console.log(test.data.choices[0].text);
 });
