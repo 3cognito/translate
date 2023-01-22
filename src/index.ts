@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import { translateController } from "./controller";
+import { translateController, convert } from "./controller";
 import multer from "multer";
 
 const upload = multer();
@@ -15,7 +15,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.post("/translate", upload.single("file"), translateController);
+app.post("/convert", upload.single("file"), convert);
+app.post("/translate", translateController);
 
 app.listen(port, async () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

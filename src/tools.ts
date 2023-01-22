@@ -8,9 +8,13 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
-const testFxn = async (pdfBuffer: Buffer): Promise<string | undefined> => {
+const extractText = async (
+  pdfBuffer: Buffer,
+  maxPage: number
+): Promise<string | undefined> => {
   try {
-    const data: Result = await pdf(pdfBuffer);
+    const data: Result = await pdf(pdfBuffer, { max: +maxPage });
+    // console.log(data);
     return data.text;
   } catch (err) {
     console.log(err);
@@ -22,7 +26,7 @@ const translate = async (
   lang: string
 ): Promise<String | undefined> => {
   try {
-    const prompt: string = `Translate ${text} to ${lang}`;
+    const prompt: string = `Translate the following message:  ${text} to ${lang}`;
 
     const result: any = await openai.createCompletion({
       model: "text-davinci-003",
@@ -37,4 +41,4 @@ const translate = async (
   }
 };
 
-export { testFxn, translate };
+export { extractText, translate };
